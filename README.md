@@ -1,4 +1,8 @@
 # LCS-Palindrome-Checker
+University of Prishtina
+Faculty of Electrical and Computer Engineering
+
+This project is for the Design and Analysis of Algorithms course in Computer and Software Engineering.
 
 ## Overview
 **MultiLCS** is a Python program designed to calculate the **Longest Common Subsequence (LCS)** among multiple strings (up to 5 strings). Additionally, it checks whether the LCS is a palindrome and recommends the nearest palindrome word based on a provided file.
