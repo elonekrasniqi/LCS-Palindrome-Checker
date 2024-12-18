@@ -1,6 +1,7 @@
 import json
 import time
 
+
 class MultiLCS:
     def __init__(self):
         print("Initialization started...")
@@ -54,23 +55,20 @@ class MultiLCS:
             nearest_palindrome = self.find_nearest_word_with_common_letters(lcs_result)
             print(f"Recommended nearest palindrome: {nearest_palindrome}")
 
-
         self.save_results_to_file(lcs_result, nearest_palindrome)
 
     def calculate_lcs(self, A, B):
         m, n = len(A), len(B)
-        # Initialize DP arrays
-        previous = [0] * (n + 1)
-        current = [0] * (n + 1)
+        # Initialize DP table
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
 
         # Fill the DP table
         for i in range(1, m + 1):
             for j in range(1, n + 1):
                 if A[i - 1] == B[j - 1]:
-                    current[j] = previous[j - 1] + 1
+                    dp[i][j] = dp[i - 1][j - 1] + 1
                 else:
-                    current[j] = max(previous[j], current[j - 1])
-            previous, current = current, previous  # Swap rows for the next iteration
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
 
         # Reconstruction of LCS
         i, j = m, n
@@ -80,7 +78,7 @@ class MultiLCS:
                 lcs.append(A[i - 1])
                 i -= 1
                 j -= 1
-            elif previous[j] >= current[j - 1]:
+            elif dp[i - 1][j] >= dp[i][j - 1]:
                 i -= 1
             else:
                 j -= 1
@@ -91,8 +89,25 @@ class MultiLCS:
         print(f"Checking if '{s}' is a palindrome.")
         return s == s[::-1]
 
+    def longest_consecutive_subsequence_length(self, a, b):
+        """Finds the longest consecutive matching subsequence length between two strings."""
+        max_length = 0
+        n, m = len(a), len(b)
+
+        for i in range(n):
+            current_length = 0
+            for j in range(m):
+                k = 0
+                while i + k < n and j + k < m and a[i + k] == b[j + k]:
+                    k += 1
+                    current_length += 1
+                max_length = max(max_length, current_length)
+                current_length = 0  # Reset for next starting point in b
+
+        return max_length
+
     def find_nearest_word_with_common_letters(self, s):
-        print(f"Finding the word with the most common letters for LCS: {s}")
+        print(f"Finding the word with the most consecutive matching letters in order for LCS: {s}")
         try:
             with open("palindrome.txt", "r") as file:
                 words = [line.strip() for line in file if line.strip()]
@@ -103,28 +118,14 @@ class MultiLCS:
             print("Error: 'palindrome.txt' not found.")
             exit()
 
-        def count_common_letters(a, b):
-            # Count common letters in order, ensuring the sequence matches
-            common = 0
-            i, j = 0, 0
-            while i < len(a) and j < len(b):
-                if a[i] == b[j]:
-                    common += 1
-                    i += 1
-                    j += 1
-                elif a[i] < b[j]:
-                    i += 1
-                else:
-                    j += 1
-            return common
-
         nearest_word = None
-        max_common_letters = -1
+        max_consecutive_length = -1
 
         for word in words:
-            common_letters = count_common_letters(s, word)
-            if common_letters > max_common_letters:
-                max_common_letters = common_letters
+            consecutive_length = self.longest_consecutive_subsequence_length(s, word)
+            print(f"Comparing with word '{word}': Longest consecutive subsequence length = {consecutive_length}")
+            if consecutive_length > max_consecutive_length:
+                max_consecutive_length = consecutive_length
                 nearest_word = word
 
         return nearest_word
@@ -138,6 +139,7 @@ class MultiLCS:
         with open("results.json", "w") as file:
             json.dump(results, file, indent=4)
         print("\nResults saved to 'results.json'.")
+
 
 if __name__ == "__main__":
     MultiLCS()

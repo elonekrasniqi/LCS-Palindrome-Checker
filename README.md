@@ -5,7 +5,7 @@ Faculty of Electrical and Computer Engineering
 This project is for the Design and Analysis of Algorithms course in Computer and Software Engineering.
 
 ## Overview
-**MultiLCS** is a Python program designed to calculate the **Longest Common Subsequence (LCS)** among multiple strings (up to 5 strings). Additionally, it checks whether the LCS is a palindrome and recommends the nearest palindrome word based on a provided file.
+This is a Python program designed to calculate the **Longest Common Subsequence (LCS)** among multiple strings (up to 5 strings). Additionally, it checks whether the LCS is a palindrome and recommends the nearest palindrome word based on a provided file.
 
 ---
 
@@ -49,8 +49,8 @@ Enter string 3: adg
 
 The program calculates the **Longest Common Subsequence (LCS)** step by step:
 
-- **Step 1**: LCS between `abcdefg` and `acdgk` → `adg`
-- **Step 2**: LCS between `adg` and `adg` → `adg`
+- **Step 1**: LCS between `abcdefg` and `acdgk` → `acdg`
+- **Step 2**: LCS between `acdg` and `adg` → `adg`
 
 After calculating the LCS, the program checks if the LCS is a **palindrome**:
 
@@ -70,7 +70,7 @@ LCS calculated: adg
 LCS length: 3
 Execution time: 0.02 seconds
 LCS is not a palindrome.
-Recommended nearest palindrome: madam
+Recommended nearest palindrome: radar
 
 Results saved to 'results.json'.
 ```
